@@ -4,6 +4,39 @@
 
 using namespace std;
 
+void ReplaceSubstrInStr(string & str, const string & strToSearch, const string & strToReplace)
+{
+	size_t foundAt = 0;
+	string resultStr = "";
+	while (foundAt != string::npos)
+	{
+		size_t startPos = foundAt;
+		foundAt = str.find(strToSearch, foundAt);
+		if (foundAt != string::npos)
+		{
+			resultStr.append(str, startPos, foundAt - startPos);
+			resultStr.append(strToReplace);
+			foundAt += strToSearch.length();
+		}
+		else
+		{
+			resultStr.append(str, startPos, str.length() - startPos);
+		}
+	}
+	str = resultStr;
+}
+
+bool ReplaceStrInFile(ifstream & input, ofstream & output, const string & strToSearch, const string & strToReplace)
+{
+	{
+		{
+			cout << "Failed to save data on disk\n";
+			return false;
+		}
+	}
+	return true;
+}
+
 int main(int argc, char * argv[])
 {
 	if (argc != 5)
@@ -25,43 +58,16 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 	string strToSearch = argv[3];
-	if (0 == strToSearch.length())
+	if (strToSearch.empty())
 	{
 		cout << "Empty search string\n";
 		return 1;
 	}
 	string strToReplace = argv[4];
-	if (0 == strToReplace.length())
+	if (!ReplaceStrInFile(input, output, strToSearch, strToReplace))
 	{
-		cout << "Empty replace string\n";
+		cout << "Failed to replace string in file\n";
 		return 1;
-	}
-	string ln;
-	while (getline(input, ln))
-	{
-		size_t foundAt = 0;
-		string lnTemp = "";
-		while (foundAt != string::npos)
-		{
-			size_t startPos = foundAt;
-			foundAt = ln.find(strToSearch, foundAt);
-			if (foundAt != string::npos)
-			{
-				lnTemp += ln.substr(startPos, foundAt - startPos);
-				lnTemp += strToReplace;
-				foundAt += strToSearch.length();
-			}
-			else
-			{
-				lnTemp += ln.substr(startPos, ln.length() - startPos);
-			}
-		}
-		lnTemp += '\n';
-		if (!(output << lnTemp))
-		{
-			cout << "Failed to save data on disk";
-			return 1;
-		}
 	}
 	if (!output.flush())
 	{

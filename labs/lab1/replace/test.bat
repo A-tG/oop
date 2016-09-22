@@ -12,10 +12,20 @@ if ERRORLEVEL 1 goto err
 fc.exe "%TEMP%\oneline.txt" oneline_replaced.txt
 if ERRORLEVEL 1 goto err
 
+%PROGRAM% oneline.txt "%TEMP%\oneline.txt" ma ""
+if ERRORLEVEL 1 goto err
+fc.exe "%TEMP%\oneline.txt" oneline_replaced_empty.txt
+if ERRORLEVEL 1 goto err
+
 rem проверяем замену в файле с несколькими строками
 %PROGRAM% multiline.txt "%TEMP%\multiline.txt" hello hi
 if ERRORLEVEL 1 goto err
 fc.exe "%TEMP%\multiline.txt" multiline_replaced.txt
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% multiline.txt "%TEMP%\multiline.txt" hello ""
+if ERRORLEVEL 1 goto err
+fc.exe "%TEMP%\multiline.txt" multiline_replaced_empty.txt
 if ERRORLEVEL 1 goto err
 
 echo Program testing succeded

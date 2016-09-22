@@ -28,7 +28,12 @@ void ReplaceSubstrInStr(string & str, const string & strToSearch, const string &
 
 bool ReplaceStrInFile(ifstream & input, ofstream & output, const string & strToSearch, const string & strToReplace)
 {
+	string str;
+	while (getline(input, str))
 	{
+		ReplaceSubstrInStr(str, strToSearch, strToReplace);
+		str.append("\n");
+		if (!(output << str))
 		{
 			cout << "Failed to save data on disk\n";
 			return false;

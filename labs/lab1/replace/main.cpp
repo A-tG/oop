@@ -32,7 +32,7 @@ bool CopyFileLinesStringsReplacing(ifstream & input, ofstream & output, const st
 	while (getline(input, str))
 	{
 		ReplaceSubstrInStr(str, strToSearch, strToReplace);
-		if (!(output << str << endl))
+		if (!(output << str << '\n'))
 		{
 			cout << "Failed to save data on disk\n";
 			return false;
@@ -62,7 +62,7 @@ bool CopyFileStringReplacing(char* inputFile, char* outputFile, const string & s
 	}
 	if (!CopyFileLinesStringsReplacing(input, output, strToSearch, strToReplace))
 	{
-		cout << "Failed to copy file " << inputFile << "to " << outputFile << endl;
+		cout << "Failed to copy file " << inputFile << "to " << outputFile << '\n';
 		return false;
 	}
 	return true;

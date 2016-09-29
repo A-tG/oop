@@ -15,6 +15,21 @@ bool IsNumericNonNegativeInt(const string & numberStr)
 	return true;
 }
 
+bool StrToByte(const string & numberStr, unsigned char & byte)
+{
+	if (!IsNumericNonNegativeInt(numberStr))
+	{
+		return false;
+	}
+	int number = stoi(numberStr);
+	if ((number < 0) && (number > 255))
+	{
+		return false;
+	}
+	byte = number;
+	return true;
+}
+
 unsigned char FlipByte(unsigned char number)
 {
 	unsigned char result;
@@ -33,18 +48,12 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	string numberStr(argv[1]);
-	if (!IsNumericNonNegativeInt(numberStr))
+	unsigned char byte;
+	if (!StrToByte(numberStr, byte))
 	{
-		cout << "First argument must be non-negative number\n";
+		cout << "First argument must be number 0-255\n";
 		return 1;
 	}
-	int number = stoi(numberStr);
-	if ((number < 0) && (number > 255))
-	{
-		cout << "Number must be 0-255\n";
-		return 1;
-	}
-	unsigned char byte = number;
 	cout << "Original " << static_cast<int>(byte) << '\n' 
 		<< "Flipped " << static_cast<int>(FlipByte(byte)) << '\n';
 	return 0;

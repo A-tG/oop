@@ -15,27 +15,35 @@ bool IsNumericNonNegativeInt(const string & numberStr)
 	return true;
 }
 
-bool StrToByte(const string & numberStr, unsigned char & byte)
+bool StrToByte(const string & numberStr, uint8_t & byte)
 {
 	if (!IsNumericNonNegativeInt(numberStr))
 	{
 		return false;
 	}
-	int number = stoi(numberStr);
-	if ((number < 0) && (number > 255))
+	try
 	{
+		int number = stoi(numberStr);
+		if ((number < 0) || (number > 255))
+		{
+			return false;
+		}
+		byte = number;
+		return true;
+	}
+	catch (const exception & err)
+	{
+		cout << err.what() << '\n';
 		return false;
 	}
-	byte = number;
-	return true;
 }
 
-unsigned char FlipByte(unsigned char number)
+uint8_t FlipByte(uint8_t number)
 {
-	unsigned char result;
+	uint8_t result;
 	result = (number >> 4) | (number << 4);
-	result = ((result >> 2) & 0x33) | ((result << 2) & 0xCC);
-	result = ((result >> 1) & 0x55) | ((result << 1) & 0xAA);
+	result = ((result >> 2) & 0b00110011) | ((result << 2) & 0b11001100);
+	result = ((result >> 1) & 0b01010101) | ((result << 1) & 0b10101010);
 	return result;
 }
 
@@ -48,7 +56,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	string numberStr(argv[1]);
-	unsigned char byte;
+	uint8_t byte;
 	if (!StrToByte(numberStr, byte))
 	{
 		cout << "First argument must be integer number 0-255\n";

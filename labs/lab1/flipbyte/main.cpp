@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 	unsigned char byte;
 	if (!StrToByte(numberStr, byte))
 	{
-		cout << "First argument must be number 0-255\n";
+		cout << "First argument must be integer number 0-255\n";
 		return 1;
 	}
 	cout << "Original " << static_cast<int>(byte) << '\n' 

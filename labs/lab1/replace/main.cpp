@@ -20,13 +20,13 @@ void ReplaceSubstrInStr(string & str, const string & strToSearch, const string &
 		}
 		else
 		{
-			resultStr.append(str, startPos, str.length() - startPos);
+			resultStr.append(str, startPos);
 		}
 	}
 	str = resultStr;
 }
 
-bool CopyFileLinesStringsReplacing(ifstream & input, ofstream & output, const string & strToSearch, const string & strToReplace)
+bool CopyFileWithReplacing(ifstream & input, ofstream & output, const string & strToSearch, const string & strToReplace)
 {
 	string str;
 	while (getline(input, str))
@@ -46,23 +46,23 @@ bool CopyFileLinesStringsReplacing(ifstream & input, ofstream & output, const st
 	return true;
 }
 
-bool CopyFileStringReplacing(char* inputFile, char* outputFile, const string & strToSearch, const string & strToReplace)
+bool CopyFileWithReplacing(char* inputFileName, char* outputFileName, const string & strToSearch, const string & strToReplace)
 {
-	ifstream input(inputFile);
+	ifstream input(inputFileName);
 	if (!input.is_open())
 	{
-		cout << "Failed to open " << inputFile << " for reading\n";
+		cout << "Failed to open " << inputFileName << " for reading\n";
 		return false;
 	}
-	ofstream output(outputFile);
+	ofstream output(outputFileName);
 	if (!output.is_open())
 	{
-		cout << "Failed to open " << outputFile << " for writing\n";
+		cout << "Failed to open " << outputFileName << " for writing\n";
 		return false;
 	}
-	if (!CopyFileLinesStringsReplacing(input, output, strToSearch, strToReplace))
+	if (!CopyFileWithReplacing(input, output, strToSearch, strToReplace))
 	{
-		cout << "Failed to copy file " << inputFile << "to " << outputFile << '\n';
+		cout << "Failed to copy file " << inputFileName << "to " << outputFileName << '\n';
 		return false;
 	}
 	return true;
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 			<< "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
 		return 1;
 	}
-	char* inputeFileName = argv[1];
+	char* inputFileName = argv[1];
 	char* outputFileName = argv[2];
 	string strToSearch = argv[3];
 	if (strToSearch.empty())
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	string strToReplace = argv[4];
-	if (!CopyFileStringReplacing(inputeFileName, outputFileName, strToSearch, strToReplace))
+	if (!CopyFileWithReplacing(inputFileName, outputFileName, strToSearch, strToReplace))
 	{
 		cout << "Failed to replace string in file\n";
 		return 1;
